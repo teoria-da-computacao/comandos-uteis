@@ -5,8 +5,11 @@ Passos para instalar git:
 * Descarregar de www.git-scm.com o git e instalá-lo.
 * Abra a linha de comandos.
 * Execute os seguintes comandos para definir a sua identidade para o git:
-![image](https://user-images.githubusercontent.com/42048382/167655241-8ad4aa9a-776d-45b9-9ae3-6091abb496f8.png)
 
+```bash
+$ git config --global user.name "username_usado_no_git"
+$ git config --global user.email "iniciais@meuemail.pt"
+```
 
 * `pipenv install`, cria ambiente virtual com os packages de pipfile
 * `pipenv shell`, ativa ambiente virtual
