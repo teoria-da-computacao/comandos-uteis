@@ -17,6 +17,38 @@ Passos para manipular models.y e a Base de dados:
     1. obter todos os objetos duma tabela: `>> Celula.objects.all()`
 
 
+
+# campo ImageField
+
+* para ativar, colocar em settings.py:
+
+```Python
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+MEDIA_URL = "/media/"
+```
+
+* no app/urls.py   (funciona no config/urls.py ?!): 
+
+```Python
+urlPatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+```
+
+
+* exemplo de utilização:
+
+```Python
+def resolution_path(instance, filename):
+    return f'users/{instance.resolution.patient.id}/resolutions/{instance.resolution.id}'
+    
+    
+class Answer(models.Model):
+    question = models.ForeignKey('Question',
+                                 on_delete=models.CASCADE)
+    resolution = models.ForeignKey('Resolution',on_delete=models.CASCADE)
+    submitted_answer = models.ImageField(upload_to=resolution_path)
+```
+
+
 # notas
 
 
