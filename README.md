@@ -20,21 +20,22 @@ Passos para manipular models.y e a Base de dados:
 
 # campo ImageField
 
-* para ativar, colocar em settings.py:
+Passos para ter um campo para carregar corretamente uma imagem para uma pasta que queiramos:
+
+1. Primeiro devemos dar instruções para criar uma pasta (MEDIA) onde guardar as imagens. Colocar em settings.py:
 
 ```Python
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = "/media/"
 ```
 
-* no app/urls.py   (funciona no config/urls.py ?!): 
+2. no app/urls.py   (funciona no config/urls.py ?!): 
 
 ```Python
 urlPatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 ```
 
-
-* exemplo de utilização:
+Depois podemos utilizar na definição do atributo da classe. Podemos especificar  no `upload_to` a pasta, dentro da pasta MEDIA, onde queremos guardar:
 
 ```Python
 def resolution_path(instance, filename):
