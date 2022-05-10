@@ -1,7 +1,8 @@
 # comandos-uteis
 
 
-Passos para instalar git:
+## Passos para instalar git
+
 * Descarregar de www.git-scm.com o git e instalá-lo.
 * Abra a linha de comandos.
 * Execute os seguintes comandos para definir a sua identidade para o git:
@@ -11,13 +12,37 @@ $ git config --global user.name "username_usado_no_git"
 $ git config --global user.email "iniciais@meuemail.pt"
 ```
 
+## Passos para correr aplicação django disponivel no GitHub
+
+1. Abra a linha de comandos (PowerShell ou cmd)
+1. Descarregue uma cópia (clone) do repositório com o comando `git clone https://github.com/teoria-da-computacao/web-app-flights` 
+1. Entre na pasta  `cd web-app-flights`
+1. Garanta que tem o pipenv instalado, correndo o comando `python3 -m pip install pipenv`
+   1. se tiver erro de permissões execute:`Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser`
+   1. se não conseguir instalar o pipenv ou der erro, trabalhe sem ambiente virtual. Para tal, instale o django sem pipenv (ambiente virtual) com o comando `python -m pip install django`. nessa caso não precisarás de ativar o ambiente, com `pipenv shell`
+3. Crie um ambiente virtual `pipenv install django` 
+4. Active o ambiente virtual `pipenv shell`
+5. Lance a aplicação no browser com o comando `python manage.py runserver`. 
+6. Tem disponíveis as aplicações hello no link `http://127.0.0.1:8000`
+7. abra a pasta com o Pycharm ou VS Code, para a explorar.
+8. devera criar um superuser `python manage.py createsuperuser` para pode aceder ao modo admin e ditar diretamente a base de dados
+9. aceda à aplicação admin, em  `http://127.0.0.1:8000/admin`
+
+
+## Comandos úteis
+
+pipenv:
 * `pipenv install`, cria ambiente virtual com os packages de pipfile
 * `pipenv shell`, ativa ambiente virtual
+
+python manage.py:
 * `python manage.py runserver` para correr app
 * `python manage.py shell` lança consola python para correr comandos
+* `python manage.py makemigrations` cria ficheiro de instruções SQL para modificar base de dados de acordo com especificado em models.py
+* `python manage.py migrate` realiza alterações na base de dados de acordo com models.py
 
 
-
+## Manipular base de dados com ORM
 Passos para manipular models.y e a Base de dados:
 1. modificar `models.py`
 1. `python manage.py makemigrations` cria comandos sql para modificar base de dados de acordo com o `models.py` 
@@ -28,51 +53,3 @@ Passos para manipular models.y e a Base de dados:
     1. importar models: `>> import nomeAplicacao.models`
     1. obter todos os objetos duma tabela: `>> Celula.objects.all()`
 
-
-
-# campo ImageField
-
-Passos para ter um campo para carregar corretamente uma imagem para uma pasta que queiramos:
-
-1. Primeiro devemos dar instruções para criar uma pasta (MEDIA) onde guardar as imagens. Colocar em settings.py:
-
-```Python
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-MEDIA_URL = "/media/"
-```
-
-2. no app/urls.py   (funciona no config/urls.py ?!): 
-
-```Python
-urlPatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-```
-
-Depois podemos utilizar na definição do atributo da classe. Podemos especificar  no `upload_to` a pasta, dentro da pasta MEDIA, onde queremos guardar. Por exemplo, em baixo queremos guardar uma imagem duma resposta duma resolução (com id 3) de um teste feito por um paciente (com id 1) em `users/1/resolutions/3`:
-
-```Python
-def resolution_path(instance, filename):
-    return f'users/{instance.resolution.patient.id}/resolutions/{instance.resolution.id}'
-    
-    
-class Answer(models.Model):
-    question = models.ForeignKey('Question',
-                                 on_delete=models.CASCADE)
-    resolution = models.ForeignKey('Resolution',on_delete=models.CASCADE)
-    submitted_answer = models.ImageField(upload_to=resolution_path)
-```
-
-
-# notas
-
-
-class AuthorForm(ModelForm):
-    class Meta:
-        model = Cuidador
-        fields = ('name', 'escolaridade', 'birth_date')
-        widgets = {
-            'name': Textarea(attrs={'cols': 80, 'rows': 20}),
-        }
-        
-        
-        
- selected="True"
